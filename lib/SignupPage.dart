@@ -1,4 +1,9 @@
+import 'package:car_service/vServices.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'homePage.dart';
 
 Color c1 = Colors.black;
 Color c2 = const Color(0xff08d9d6);
@@ -12,21 +17,18 @@ Color c9 = const Color(0xff90ccf4);
 Color c10 = const Color(0xff5da2d5);
 
 class SignUp extends StatefulWidget {
-
-
   static const String id = 'signup';
   @override
   _State createState() => _State();
 }
 
 class _State extends State<SignUp> {
-
   final _key = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController=TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   bool hidePass = true;
   bool loading = false;
   @override
@@ -79,7 +81,7 @@ class _State extends State<SignUp> {
                           child: TextFormField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                                icon: Icon(Icons.person_outline,color: c5),
+                                icon: Icon(Icons.person_outline, color: c5),
                                 labelText: 'Full-Name *',
                                 hintText: 'Enter Full-Name'),
                           ),
@@ -97,15 +99,13 @@ class _State extends State<SignUp> {
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
-
-                                icon: Icon(Icons.phone,color: c5),
+                                icon: Icon(Icons.phone, color: c5),
                                 labelText: 'Mobile Number *',
                                 hintText: 'Enter Mobile No.'),
                           ),
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Material(
@@ -116,7 +116,7 @@ class _State extends State<SignUp> {
                           child: TextFormField(
                             controller: _emailController,
                             decoration: InputDecoration(
-                                icon: Icon(Icons.email,color: c5),
+                                icon: Icon(Icons.email, color: c5),
                                 labelText: 'Email *',
                                 hintText: 'Enter e-mail'),
                             keyboardType: TextInputType.emailAddress,
@@ -146,7 +146,7 @@ class _State extends State<SignUp> {
                             obscureText: hidePass,
                             controller: _passwordController,
                             decoration: InputDecoration(
-                                icon: Icon(Icons.lock_outline,color: c5),
+                                icon: Icon(Icons.lock_outline, color: c5),
                                 labelText: 'Password *',
                                 hintText: 'Enter password'),
                             validator: (value) {
@@ -173,7 +173,7 @@ class _State extends State<SignUp> {
                             obscureText: hidePass,
                             controller: _confirmPasswordController,
                             decoration: InputDecoration(
-                                icon: Icon(Icons.lock_outline,color: c5),
+                                icon: Icon(Icons.lock_outline, color: c5),
                                 labelText: 'Confirm Password *',
                                 hintText: 'Re-Enter password'),
                             validator: (value) {
@@ -199,7 +199,7 @@ class _State extends State<SignUp> {
                         child: MaterialButton(
                           minWidth: MediaQuery.of(context).size.width,
                           onPressed: () {
-                            //validateForm();
+                            registerUser();
                           },
                           child: Text(
                             'Sign Up',
@@ -211,25 +211,25 @@ class _State extends State<SignUp> {
                         ),
                       ),
                     ),
-//                  Divider(
-//                    color: Colors.white,
-//                  ),
-//                     SizedBox(
-//                       height: 10,
-//                     ),
-//                     InkWell(
-//                       onTap: () {
-//                         Navigator.pop(context);
-//                       },
-//                       child: Text(
-//                         'Login',
-//                         textAlign: TextAlign.center,
-//                         style: TextStyle(
-//                             color: Colors.blue,
-//                             fontSize: 20,
-//                             fontWeight: FontWeight.bold),
-//                       ),
-//                     )
+                    Divider(
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Login',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -249,5 +249,60 @@ class _State extends State<SignUp> {
         ],
       ),
     );
+  }
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  void registerUser() async {
+    showDialog(
+        context: context,
+        builder: (c) {
+          return AlertDialog(
+            title: Text('Signing Up....'),
+          );
+        });
+    //Center(child: CircularProgressIndicator());
+    FirebaseUser user;
+    await _auth
+        .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim())
+        .then((auth) {
+      user = auth.user;
+    }).catchError((error) {
+      print(error);
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error signing in'),
+            );
+          });
+    });
+    if (user != null) {
+      saveUserToFirestore(user);
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return HomePage();
+      }));
+    }
+  }
+
+  Future saveUserToFirestore(FirebaseUser user) async {
+    Firestore.instance.collection("users").document(user.uid).setData({
+      "uid": user.uid,
+      "email": user.email,
+      "name": _nameController.text.trim(),
+      "phone": _phoneController.text.trim().toString(),
+      ServiceApp.userCartList: ["garbageValue"]
+    });
+    await ServiceApp.sharedPreferences.setString("uid", user.uid);
+    await ServiceApp.sharedPreferences
+        .setString(ServiceApp.userEmail, user.email);
+    await ServiceApp.sharedPreferences
+        .setString(ServiceApp.userName, _nameController.text);
+    await ServiceApp.sharedPreferences
+        .setString(ServiceApp.userPhone, _phoneController.text.toString());
+    await ServiceApp.sharedPreferences
+        .setStringList(ServiceApp.userCartList, ["garbageValue"]);
   }
 }
