@@ -28,4 +28,21 @@ class ServiceApp {
   static final String paymentDetails = 'paymentDetails';
   static final String orderTime = 'orderTime';
   static final String isSuccess = 'isSuccess';
+
+  static final String vehicleType = 'vehicleType';
+  static final String vehicleBrand = 'vehicleBrand';
+  static final String vehicleModel = 'vehicleModel';
+  static final String serviceType = 'serviceType';
+  static final String dateTime = 'dateTime';
+  static final String registrationNumber = 'registrationNumber';
+  static final String AMC_Opted = 'AMC_Opted';
+  static final String emergencyService = 'emergencyService';
+  static final String orders = 'orders';
+  static final String date = 'date';
+  static final String dueDate = 'dueDate';
+  static final String ordersTotal = 'ordersTotal';
+  static final String total = 'total';
+
+
+
 }

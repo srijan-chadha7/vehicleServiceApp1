@@ -261,13 +261,18 @@ class _AdminPageState extends State<AdminPage> {
           });
     });
     if (user != null) {
-      readData(user).then((value) {
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Admin();
-        }));
-        loading = false;
-      });
+      if(user.uid=='ENi73EmDEzb53hqaRHwdV31u23c2')
+        {
+          readData(user).then((value) {
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return Admin();
+            }));
+            loading = false;
+          });
+
+        }
+
     }
   }
 

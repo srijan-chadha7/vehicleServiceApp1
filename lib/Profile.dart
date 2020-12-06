@@ -373,13 +373,15 @@ class _ProfileState extends State<Profile> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    "Orders Completed",
+                                    "Total Orders",
                                     style: TextStyle(
                                         fontSize: 18.0, color: Colors.grey),
                                   ),
                                   SizedBox(height: 4.0),
                                   Text(
-                                    "50",
+                                    ServiceApp.sharedPreferences
+                                        .getString(ServiceApp.ordersTotal)==null?'0':ServiceApp.sharedPreferences
+                                        .getString(ServiceApp.ordersTotal),
                                     style: TextStyle(fontSize: 18.0, color: c1),
                                   ),
                                 ],
@@ -422,7 +424,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   SizedBox(height: 4.0),
                                   Text(
-                                    "Car-Washing",
+                                      ServiceApp.sharedPreferences
+                                          .getString(ServiceApp.emergencyService)==null?'No upcoming service':ServiceApp.sharedPreferences
+                                          .getString(ServiceApp.emergencyService),
                                     style: TextStyle(fontSize: 18.0, color: c1),
                                   ),
                                 ],

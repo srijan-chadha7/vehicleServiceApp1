@@ -269,13 +269,13 @@ class _State extends State<SignUp> {
         .then((auth) {
       user = auth.user;
     }).catchError((error) {
-      print(error);
+      print(error.toString());
       Navigator.pop(context);
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Error signing in'),
+              title: Text('User already exists'),
             );
           });
     });

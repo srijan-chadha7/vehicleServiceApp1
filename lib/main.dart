@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:car_service/ChatBot.dart';
 import 'package:car_service/LoginPage.dart';
 import 'package:car_service/homePage.dart';
 import 'package:car_service/vServices.dart';
@@ -10,11 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'LoginPage.dart';
-import 'LoginPage.dart';
-import 'LoginPage.dart';
+
 import 'SignupPage.dart';
-import 'SignupPage.dart';
-import 'SignupPage.dart';
+
 
 Color c1 = Colors.black;
 Color c2 = const Color(0xff08d9d6);
@@ -40,6 +39,7 @@ Future<void> main() async {
     routes: {
       SignUp.id: (context) => SignUp(),
       LoginPage.id: (context) => LoginPage(),
+      ChatBot.id:(context)=>ChatBot(),
     },
     home: SplashScrn(),
     debugShowCheckedModeBanner: false,

@@ -1,7 +1,11 @@
+import 'package:car_service/FAQ.dart';
+import 'package:car_service/Myorders.dart';
+import 'package:car_service/Payments.dart';
 import 'package:car_service/Profile.dart';
 import 'package:car_service/vServices.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'LoginPage.dart';
 import 'homePage.dart';
@@ -18,6 +22,8 @@ Color c9 = const Color(0xff90ccf4);
 Color c10 = const Color(0xff5da2d5);
 
 class DDrawer extends StatefulWidget {
+
+
   final FirebaseUser user;
   const DDrawer({Key key, this.user}) : super(key: key);
 
@@ -26,6 +32,14 @@ class DDrawer extends StatefulWidget {
 }
 
 class _DDrawerState extends State<DDrawer> {
+
+  void customLaunch(command) async
+  {
+    if(await canLaunch(command))
+    {
+      await launch(command);
+    }
+  }
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   Future<void> logout() async {
     try {
@@ -52,7 +66,7 @@ class _DDrawerState extends State<DDrawer> {
                   'https://i.pinimg.com/474x/aa/b1/8f/aab18f3bd9edcb51fee7103dc49649b3.jpg'),
             )),
             accountName: Text(
-              "Hello! ${ServiceApp.sharedPreferences.getString(ServiceApp.userName).toUpperCase()}",
+              "Hello! ${ServiceApp.sharedPreferences.getString(ServiceApp.userName).split(" ")[0].toUpperCase()}",
               style: TextStyle(fontSize: 24),
             ),
             accountEmail: Text(
@@ -87,17 +101,25 @@ class _DDrawerState extends State<DDrawer> {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MyOrders();
+              }));
+            },
             child: ListTile(
               leading: Icon(
-                Icons.shopping_basket,
+                Icons.calendar_today,
                 color: c2,
               ),
               title: Text('My Bookings'),
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return Payments();
+              }));
+            },
             child: ListTile(
               leading: Icon(
                 Icons.monetization_on,
@@ -106,35 +128,37 @@ class _DDrawerState extends State<DDrawer> {
               title: Text('Payments'),
             ),
           ),
-          InkWell(
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (context) {
-              //   return Cart();
-              // }));
-            },
-            child: ListTile(
-              leading: Icon(
-                Icons.message,
-                color: c2,
-              ),
-              title: Text(
-                'Terms & Conditions',
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.share,
-                color: c2,
-              ),
-              title: Text('Share'),
-            ),
-          ),
+          // InkWell(
+          //   onTap: () {
+          //
+          //   },
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.message,
+          //       color: c2,
+          //     ),
+          //     title: Text(
+          //       'Terms & Conditions',
+          //     ),
+          //   ),
+          // ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.share,
+          //       color: c2,
+          //     ),
+          //     title: Text('Share'),
+          //   ),
+          // ),
           Divider(),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return Help();
+              }));
+            },
             child: ListTile(
               leading: Icon(
                 Icons.feedback,
@@ -143,27 +167,38 @@ class _DDrawerState extends State<DDrawer> {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              customLaunch('tel: 09111884992');
+            },
             child: ListTile(
               leading: Icon(
-                Icons.help,
+                Icons.call,
               ),
-              title: Text('How we work'),
+              title: Text('Contact us'),
             ),
           ),
-          InkWell(
-            onTap: () {},
-            child: ListTile(
-              leading: Icon(
-                Icons.info,
-              ),
-              title: Text('About'),
-            ),
-          ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.help,
+          //     ),
+          //     title: Text('How we work'),
+          //   ),
+          // ),
+          // InkWell(
+          //   onTap: () {},
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.info,
+          //     ),
+          //     title: Text('About'),
+          //   ),
+          // ),
           InkWell(
             onTap: () {
               logout();
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
                 return LoginPage();
               }));
             },

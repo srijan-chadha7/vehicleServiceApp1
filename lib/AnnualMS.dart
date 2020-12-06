@@ -1,3 +1,4 @@
+import 'package:car_service/ServiceBooking.dart';
 import 'package:flutter/material.dart';
 
 import 'drawer.dart';
@@ -69,15 +70,18 @@ class _AMSState extends State<AMS> {
                         Center(
                           child: Text(
                             '''
-The one with Extra luggage willing to share their luggage.
+Our AMC helps our customers to save upto 30% on 
+regular maintenance cost of their vehicles.
                                 
-Enter your trip and luggage details
+Additional 10% discount is offered by us on all the 
+required parts for vehicles under AMC with us.
 
-Select an Earner to share luggage with.
+Benefit of free home pickup and drop with
+preference delivery offered for AMC vehicles.
 
-Confirm, Pay ,Exchange, Travel
-
-Repeat.''',
+Free of cost Roadside Assistance for upto three
+instances in a year
+''',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
@@ -117,11 +121,11 @@ Repeat.''',
                     children: [
                       MaterialButton(
                         onPressed: () {
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             LoginPage()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      BookingForm()));
                         },
                         child: Text(
                           'Book Now',

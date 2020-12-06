@@ -1,14 +1,21 @@
+import 'package:car_service/Reminder.dart';
 import 'package:car_service/drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:car_service/vServices.dart';
+
 
 final _orderFireStore = Firestore.instance.collection("Orders");
-class Admin extends StatefulWidget {
+
+
+class MyOrders extends StatefulWidget {
   @override
-  _AdminState createState() => _AdminState();
+  _MyOrdersState createState() => _MyOrdersState();
 }
-Color c1 = Colors.black;
+Color c1 = Colors.white;
 Color c2 = const Color(0xff08d9d6);
 Color c3 = const Color(0xffff2e63);
 Color c4 = Colors.white;
@@ -18,9 +25,12 @@ Color c7 = const Color(0xfff3d250);
 Color c8 = const Color(0xffececec);
 Color c9 = const Color(0xff90ccf4);
 Color c10 = const Color(0xff5da2d5);
-class _AdminState extends State<Admin> {
-  var orderList = [];
+class _MyOrdersState extends State<MyOrders> {
   var dataToShow = [];
+  var orderList = [];
+
+
+
   bool isInit = true;
   List args;
   void customLaunch(command) async
@@ -32,10 +42,20 @@ class _AdminState extends State<Admin> {
   }
 
 
+
+
+
   orderData() async {
     QuerySnapshot querySnapshot = await _orderFireStore.getDocuments();
+    await ServiceApp.sharedPreferences
+        .setString(ServiceApp.ordersTotal,querySnapshot.documents.length.toString());
     querySnapshot.documents.forEach((element) {
-      orderList.add(element);
+      //print(element.data['name']);
+      if(element.data['name']==ServiceApp.sharedPreferences.getString(ServiceApp.userName))
+        {
+          orderList.add(element);
+        }
+
     });
   }
   @override
@@ -54,14 +74,20 @@ class _AdminState extends State<Admin> {
       //     ? args[0] == UserType.Earner ? sharerList : earnerList
       //     : '';
       dataToShow = orderList;
+      //Reminder(len: dataToShow.length);
+      print(dataToShow.length);
+
       setState(() {});
       isInit = false;
+
     }
 
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: c4,
@@ -69,7 +95,7 @@ class _AdminState extends State<Admin> {
           iconTheme: IconThemeData(
             color: Color(0xffeeeeee),
           ),
-          title: Center(child: Text('Admin Page')),
+          title: Text('My Orders'),
           elevation: 0.5,
           backgroundColor: c2,
           brightness: Brightness.dark,
@@ -87,23 +113,27 @@ class _AdminState extends State<Admin> {
               padding: const EdgeInsets.all(25.0),
               child: Container(
                 height: 600,
-                child: ListView.builder(
-                  reverse: true,
-                  itemCount: dataToShow.length,
-                  itemBuilder: (context, index) {
-                    return detailsContainer(
-                      context,
-                      dataToShow[index]["name"] ?? "",
-                      dataToShow[index]["contact"] ?? "",
-                      dataToShow[index]["emergencyService"] ?? "",
-                      dataToShow[index]["vehicleType"] ?? "",
-                      dataToShow[index]["registrationNumber"] ?? "",
-                      dataToShow[index]["vehicleBrand"] ?? "",
-                      dataToShow[index]["vehicleModel"] ?? "",
-                      dataToShow[index]["serviceType"] ?? "",
-                      dataToShow[index]["dateTime"] ?? "",
-                    );
-                  },
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ListView.builder(
+                    //reverse: true,
+                    shrinkWrap: true,
+                    itemCount: dataToShow.length,
+                    itemBuilder: (context, index) {
+                      return detailsContainer(
+                        context,
+                        dataToShow[index]["name"] ?? "",
+                        dataToShow[index]["contact"] ?? "",
+                        dataToShow[index]["emergencyService"] ?? "",
+                        dataToShow[index]["vehicleType"] ?? "",
+                        dataToShow[index]["registrationNumber"] ?? "",
+                        dataToShow[index]["vehicleBrand"] ?? "",
+                        dataToShow[index]["vehicleModel"] ?? "",
+                        dataToShow[index]["serviceType"] ?? "",
+                        dataToShow[index]["dateTime"] ?? "",
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -134,44 +164,21 @@ class _AdminState extends State<Admin> {
               children: <Widget>[
                 Icon(
                   Icons.person,
-                  color: c1,
+                  color: Colors.black,
                 ),
                 Text(
-                  ' Order Details ',
+                  ''' ${ServiceApp.sharedPreferences.getString(ServiceApp.userName).split(" ")[0].toUpperCase()}'s Order Details ''',
                   style: TextStyle(
-                      fontSize: 20, color: c1, fontWeight: FontWeight.bold),
+                      fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 Icon(
                   Icons.person,
-                  color: c1,
+                  color:Colors.black,
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 15, bottom: 25.0,  right: 5.0, left: 5.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Name : $name',
-                  style: TextStyle(fontSize: 20, color: c1,fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 10.0, bottom: 25.0,  right: 5.0, left: 5.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Phone no : $contact',
-                  style: TextStyle(fontSize: 20, color: c1,fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
+
           Padding(
             padding: const EdgeInsets.only(
                 top: 10.0, bottom: 25.0,  right: 5.0, left: 5.0),
@@ -197,9 +204,10 @@ class _AdminState extends State<Admin> {
             child: Row(
               children: <Widget>[
                 Text(
-                'Vehicle name : $vehicleBrand $vehicleModel',
-                style: TextStyle(fontSize: 20, color: c1,fontWeight: FontWeight.bold),
-              )
+                  '''Vehicle name :
+$vehicleBrand $vehicleModel''',
+                  style: TextStyle(fontSize: 20, color: c1,fontWeight: FontWeight.bold),
+                )
               ],
             ),
           ),
@@ -247,46 +255,23 @@ $serviceType''',
           ),
           Padding(
             padding: const EdgeInsets.only(
-                top: 10.0, bottom: 25.0, right: 5.0, left: 5.0),
+                top: 10.0, bottom: 25.0, right: 5, left: 5.0),
             child: Row(
               children: <Widget>[
                 Text(
-                  '''Date/Time:
+                  '''Date/Time: 
 $dateTime''',
                   style: TextStyle(fontSize: 20, color: c1,fontWeight: FontWeight.bold),
                 )
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 10.0, bottom: 25.0, right: 5.0, left: 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text(
-                    'Call',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: c4,
-                    ),
-                  ),
-                  color: Color(0xff232931),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(80)),
-                  onPressed: () {
-                    customLaunch('tel: $contact');
-                  },
-                ),
-              ],
-            ),
-          )
+
         ],
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: c2
+          borderRadius: BorderRadius.circular(10),
+          color: c2
         // gradient: LinearGradient(
         //   colors: [c1, c2],
         // ),

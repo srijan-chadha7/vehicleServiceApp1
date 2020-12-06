@@ -8,6 +8,8 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'ChatBot.dart';
+
 Color c1 = Colors.black;
 Color c2 = const Color(0xff08d9d6);
 Color c3 = const Color(0xffff2e63);
@@ -29,59 +31,97 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('Do you want to exit the App'),
+        actions: <Widget>[
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(false),
+            child: Text("NO"),
+          ),
+          SizedBox(height: 16),
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(true),
+            child: Text("YES"),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
   var currentIndex;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // bottomNavigationBar: BottomNavigationBar(
-        //   backgroundColor: Colors.white,
-        //   unselectedItemColor: Colors.black,
-        //   selectedItemColor: c2,
-        //   type: BottomNavigationBarType.fixed,
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.home),
-        //       title: Text("Home"),
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.book),
-        //       title: Text("Bookings"),
-        //     ),
-        //   ],
-        //   onTap: (index) {
-        //     setState(() {
-        //       currentIndex = index;
-        //     });
-        //   },
-        // ),
-        backgroundColor: c4,
-        appBar: AppBar(
-          elevation: 0.3,
-          backgroundColor: c2,
-          title: Text('HandyGo'),
-          // actions: <Widget>[
-          //   // IconButton(
-          //   //     icon: Icon(
-          //   //       Icons.search,
-          //   //       color: Colors.white,
-          //   //     ),
-          //   //     onPressed: () {}),
-          //   // IconButton(
-          //   //     icon: Icon(
-          //   //       Icons.shopping_cart,
-          //   //       color: Colors.white,
-          //   //     ),
-          //   //     onPressed: () {
-          //   //       // Navigator.push(context, MaterialPageRoute(builder: (context) {
-          //   //       //   return Cart();
-          //   //       // }));
-          //   //     }
-          //   //     ),
-          // ],
-        ),
-        drawer: DDrawer(),
-        body: Homie());
+    return SafeArea(
+
+      child: WillPopScope(
+        onWillPop: _onBackPressed,
+        child: Scaffold(
+
+            // bottomNavigationBar: BottomNavigationBar(
+            //   backgroundColor: Colors.white,
+            //   unselectedItemColor: Colors.black,
+            //   selectedItemColor: c2,
+            //   type: BottomNavigationBarType.fixed,
+            //   items: [
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.home),
+            //       title: Text("Home"),
+            //     ),
+            //     BottomNavigationBarItem(
+            //       icon: Icon(Icons.book),
+            //       title: Text("Bookings"),
+            //     ),
+            //   ],
+            //   onTap: (index) {
+            //     setState(() {
+            //       currentIndex = index;
+            //     });
+            //   },
+            // ),
+            backgroundColor: c4,
+            appBar: AppBar(
+              elevation: 0.3,
+              backgroundColor: c2,
+              title: Text('HandyGo'),
+              // actions: <Widget>[
+              //   // IconButton(
+              //   //     icon: Icon(
+              //   //       Icons.search,
+              //   //       color: Colors.white,
+              //   //     ),
+              //   //     onPressed: () {}),
+              //   // IconButton(
+              //   //     icon: Icon(
+              //   //       Icons.shopping_cart,
+              //   //       color: Colors.white,
+              //   //     ),
+              //   //     onPressed: () {
+              //   //       // Navigator.push(context, MaterialPageRoute(builder: (context) {
+              //   //       //   return Cart();
+              //   //       // }));
+              //   //     }
+              //   //     ),
+              // ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: c2,
+              foregroundColor: c1,
+              elevation: 10.0,
+              child: Icon(Icons.question_answer),
+              onPressed: (){
+                Navigator.pushNamed(context, ChatBot.id);
+              },
+            ),
+            drawer: DDrawer(),
+            body: Homie()),
+      ),
+    );
   }
 
   // getBodyWidget() {

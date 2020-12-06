@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "vehicleservicebot-wmpt",
+  "private_key_id": "ae126c2fc250a1e90ac569f4e4286f48d8a1a501",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCPhMhHU7IDx0NL\nZcP8CAHT3/1fKi72N7++XgQbBbGblwktiiaOip4Rips5xmxDNtMzJReirmayT8P+\nV8nBSIt1o/9ov+c/0MXqfYJpxy/ofHuhSvofFUkQFrKq3CxIa0E7bmjfTnPBMZXo\nFRkZDiMkNxB5/5T/Unys5n58+eJJUfhp6eDTE3cacslwcA1yKAjiwjZHO3hhbSjS\nawcfvMhuR7pRlD6eRNbb96yH6rwrGjL0ryDPLBpj0ZUb1igscIAJbsETu50XuChr\nyKEatEuq14XVhXoSLeTgqd2ybIp0mxSxmbuIXmmDBSO4Ta2NaM4P1CyNgERLJ/8C\nhbsZHoChAgMBAAECggEAAOlhktQI4ZPDWXdj3cDGdVb0LYi69LVpET26GLwt5Jqo\nR02ZB+M3mS9hFJcxU8nUvClsSYw/OTToJeTS73DpHKKbijGM0ydRklWd4iKIpRM2\nl6+7TESzYYEUW9HkbnPDGruNaydVRH+BAVP7XJrq97pXMliGngq4j0iOiZYA6KdJ\n1rtI0Xq65QONJjANsrKIxnXRB2zo5OiKBzMB5OE6BHXmmqodlRqtHGAFSDgzcr1q\nlNHT2/dBaYWeMPqZ8QhvB5sSFmgkmqS8Nr0icssUWhYaCzj0JVscUkhA/BWBI/kN\nKgHOAlNhr+LpLTdLSctmF/rFDUSgKsU4AYzi7BLwXQKBgQDENYUO5LYDm8VE4x/O\np8RUbDWTtDmwyJuJQWZpfXFaJYc/6B9JWbH2f7ZhvfIotOBB8Yk+oWZhCFyMtrUX\nYiA7/TirBY7ijf/HOjspwv1FyYPKV7fahIy7N7nT6dei7tmoe503i2Kzb30s8oLJ\nkSD0EI444HWN+dTMdEtgPFl9rQKBgQC7QNRI4pXiSKWsEaS9GGN1TYiBZObcwYqV\nw4YuD8S3+EJQ76wqduuxB4JuTPyQr99zFOuWiS6gCi920g7VpMxQd//HajVyxaE3\ndY2k1ZfSBxY7KBfZVCZwKK7HHElkRIiu3B0kQxw45QzGdUR2xz5pHqsN6Yx2InCU\n2N0KEqBFRQKBgQDBvHLYpN5QK9QaVAWJIUCLd5ljcdZxB3QEkA4WZWWydFHauVGD\nNMyzL6GfW1Wr+gVhN6SjseyMLRxtWM7w+tQHR95XiBJxA3MmfgoDD2TULskx13FT\nlAP9rGWRqFliqWNDqGMxgDECKji4U/DuJJ4cP+ieoouQl7oV81KmAJEAtQKBgAVU\n4TZ6DR52RxFRJ0mjCiHq5ToZ72DVueZtvMJO/KDoVqsLR/GllSxjNFmDo6VS/J/A\nNr0Ahu1TnOpbLMT0fkTEReodogv0iJSVqkTJOBtozD8+8v7jIH0NC3zr10MdmG6y\nIbpIluMf0m9MI3jmT2aa0vAAeFlcvavfSNvij+GpAoGAdKO8hIPP2o81JR7Sj0Fd\nRjQK6CMUx1g+juGF5PkEqgHxO07SkiqrM5Glk6VWDTEBTzH79SZ4H2Usnt6M62Pt\nAoiqKvrGRPzf8JUMp+l6014GXrCLH0R/yE3NcuyJ3nDxUbr6rBGzxyws73MXGtM2\nY1rae1Zh1nt35JGI/iPgpfc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "carserviceapp1234@vehicleservicebot-wmpt.iam.gserviceaccount.com",
+  "client_id": "114341804013458076058",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/carserviceapp1234%40vehicleservicebot-wmpt.iam.gserviceaccount.com"
+}

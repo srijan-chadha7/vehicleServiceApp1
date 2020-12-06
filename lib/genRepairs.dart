@@ -1,8 +1,10 @@
+import 'package:car_service/ServiceBooking.dart';
+import 'package:car_service/vServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'drawer.dart';
-
+String emergencyServices='';
 class GeneralRepairs extends StatefulWidget {
   @override
   _GeneralRepairsState createState() => _GeneralRepairsState();
@@ -541,11 +543,13 @@ class _GeneralRepairsState extends State<GeneralRepairs> {
                         children: [
                           MaterialButton(
                             onPressed: () {
-                              // Navigator.pushReplacement(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             LoginPage()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BookingForm()));
+                              auth();
+
                             },
                             child: Text(
                               'NEXT',
@@ -570,5 +574,91 @@ class _GeneralRepairsState extends State<GeneralRepairs> {
         ),
       ),
     );
+  }
+
+  Future<void> auth() async {
+
+        if(isSelected1==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Puncture,";
+          });
+        }
+        if(isSelected2==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Breakdown,";
+          });
+
+        }
+        if(isSelected3==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Out of Fuel,";
+          });
+
+        }
+        if(isSelected4==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Auto-lockout,";
+          });
+
+        }
+        if(isSelected5==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Jumpstart,";
+          });
+
+        }
+        if(isSelected6==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Towing,";
+          });
+
+        }
+        if(isSelected7==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Battery Change,";
+          });
+
+        }
+        if(isSelected8==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"AC Service,";
+          });
+
+        }
+        if(isSelected9==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Car Wash,";
+          });
+
+        }
+        if(isSelected10==true)
+        {
+          setState(() {
+            emergencyServices=emergencyServices+"Oil Change,";
+          });
+
+        }
+        if(emergencyServices=='')
+        {
+          emergencyServices='General Service,';
+        }
+        emergencyServices=emergencyServices.substring(0,emergencyServices.length-1);
+
+        BookingForm(emergencyService: emergencyServices,);
+        await ServiceApp.sharedPreferences
+            .setString(ServiceApp.emergencyService, emergencyServices);
+        print(emergencyServices);
+
+
+
   }
 }
